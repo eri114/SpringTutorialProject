@@ -5,18 +5,19 @@ import java.time.LocalTime;
 
 import javax.persistence.*;
 
+@Entity
 public class Reservation implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer reservationId;
 	
-	private LocalTime endTime;
-	
 	private LocalTime startTime;
 	
+	private LocalTime endTime;
+	
 	@ManyToOne
-	@JoinColumns({@JoinColumn(name = "reserved_date"),@JoinColumn(name = "room_id")})
+	@JoinColumns({ @JoinColumn(name = "reserved_date"), @JoinColumn(name = "room_id") })
 	private ReservableRoom reservableRoom;
 	
 	@ManyToOne
@@ -31,20 +32,20 @@ public class Reservation implements Serializable {
 		this.reservationId = reservationId;
 	}
 
-	public LocalTime getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(LocalTime endTime) {
-		this.endTime = endTime;
-	}
-
 	public LocalTime getStartTime() {
 		return startTime;
 	}
 
 	public void setStartTime(LocalTime startTime) {
 		this.startTime = startTime;
+	}
+	
+	public LocalTime getEndTime() {
+		return endTime;
+	}
+	
+	public void setEndTime(LocalTime endTime) {
+		this.endTime = endTime;
 	}
 
 	public ReservableRoom getReservableRoom() {

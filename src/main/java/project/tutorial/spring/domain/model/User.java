@@ -5,13 +5,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "usr")
 public class User implements Serializable {
 
 	@Id
 	private String userId;
 	
-	private String pssword;
+	private String password;
 	
 	private String firstName;
 	
@@ -26,12 +26,12 @@ public class User implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getPssword() {
-		return pssword;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPssword(String pssword) {
-		this.pssword = pssword;
+	public void setPssword(String password) {
+		this.password = password;
 	}
 
 	public String getFirstName() {
