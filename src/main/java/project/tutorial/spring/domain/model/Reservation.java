@@ -2,6 +2,7 @@ package project.tutorial.spring.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -62,6 +63,22 @@ public class Reservation implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public boolean overlap(Reservation target) {
+		
+		// 2つの予約の日付・部屋が別であれば重複なし
+		if(!Objects.equals(reservableRoom.getReservableRoomId(), target.reservableRoom.getReservableRoomId())) {
+			return false;
+		}
+		
+		// 2つの予約の開始時刻と終了時刻が一致する場合は重複
+		if(startTime.equals(target.startTime) && endTime.equals(target.endTime)) {
+			return true;
+		}
+		
+		// 2つの予約の開始時刻と終了時刻が黄砂しているか、または包含関係にあるかどうかを判定
+		return target.endTime.isAfter(startTime) && endTime.isAfter(target.startTime);
 	}
 
 }

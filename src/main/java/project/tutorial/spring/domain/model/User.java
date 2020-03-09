@@ -15,6 +15,8 @@ public class User implements Serializable {
 	
 	private String firstName;
 	
+	private String lastName;
+
 	@Enumerated(EnumType.STRING)
 	private RoleName roleName;
 
@@ -30,7 +32,7 @@ public class User implements Serializable {
 		return password;
 	}
 
-	public void setPssword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -48,5 +50,13 @@ public class User implements Serializable {
 
 	public void setRoleName(RoleName roleName) {
 		this.roleName = roleName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 }

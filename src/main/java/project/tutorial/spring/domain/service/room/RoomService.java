@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import project.tutorial.spring.domain.model.MeetingRoom;
 import project.tutorial.spring.domain.model.ReservableRoom;
+import project.tutorial.spring.domain.repository.room.MeetingRoomRepository;
 import project.tutorial.spring.domain.repository.room.ReservableRoomRepository;
 
 @Service
@@ -17,7 +19,15 @@ public class RoomService {
 	@Autowired
 	ReservableRoomRepository reservableRoomRepository;
 	
+	@Autowired
+	MeetingRoomRepository meetingRoomRepository;
+	
 	public List<ReservableRoom> findReservableRooms(LocalDate reservedDate) {
 		return reservableRoomRepository.findByReservableRoomId_reservedDateOrderByReservableRoomId_roomIdAsc(reservedDate);
+	}
+	
+	// 会議室情報の取得
+	public MeetingRoom findMeetingRoom(Integer roomId) {
+		return meetingRoomRepository.findById(roomId).get();
 	}
 }
