@@ -77,8 +77,10 @@ public class Reservation implements Serializable {
 			return true;
 		}
 		
-		// 2つの予約の開始時刻と終了時刻が黄砂しているか、または包含関係にあるかどうかを判定
-		return target.endTime.isAfter(startTime) && endTime.isAfter(target.startTime);
+		// 2つの予約の開始時刻と終了時刻が交差しているか、または包含関係にあるかどうかを判定
+//		return target.endTime.isAfter(startTime) && endTime.isAfter(target.startTime);
+		boolean flag = target.endTime.isAfter(startTime) && endTime.isAfter(target.startTime);
+		return flag;
 	}
 
 }
