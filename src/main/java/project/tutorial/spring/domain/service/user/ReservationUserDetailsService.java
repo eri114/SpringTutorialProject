@@ -27,6 +27,6 @@ public class ReservationUserDetailsService implements UserDetailsService {
 		}
 		
 		// ユーザが見つかった場合は、UserDetailsを生成
-		return new ReservatoinUserDetails(user);
+		return new ReservationUserDetails(user);
 	}
 }

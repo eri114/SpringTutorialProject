@@ -8,13 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import project.tutorial.spring.domain.model.User;
 
-public class ReservatoinUserDetails implements UserDetails {
+/**
+ * Spring Securityで使用する認証ユーザを定義するクラス
+ */
+public class ReservationUserDetails implements UserDetails {
 	
 	// Userクラスを内包
 	// 基本的なユーザ情報はこのフィールドが持つ
 	private final User user;
 	
-	public ReservatoinUserDetails(User user) {
+	public ReservationUserDetails(User user) {
 		this.user = user;
 	}
 	
