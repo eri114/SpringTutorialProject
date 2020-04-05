@@ -104,17 +104,16 @@ public class ReservationsController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, params = "cancel")
-	String cancel(@AuthenticationPrincipal ReservationUserDetails userDetails,
+	String cancel(
 			@RequestParam("reservationId") Integer reservationId,
 			@PathVariable("roomId") Integer roomId,
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 			@PathVariable("date") LocalDate date, Model model) {
 		
-		User user = userDetails.getUser();
-		
 		try {
+			Reservation reservation = reservationService.findById(reservationId); 
 			// 取消処理
-			reservationService.cancel(reservationId, user);
+			reservationService.cancel(reservation);
 		} catch (AccessDeniedException e) {
 			model.addAttribute("error", e.getMessage());
 			return reserveForm(date, roomId, model);

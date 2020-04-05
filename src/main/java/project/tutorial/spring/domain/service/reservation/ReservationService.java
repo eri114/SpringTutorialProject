@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,21 +53,31 @@ public class ReservationService {
 		return reservation;
 	}
 	
-	// 予約情報の取り消し可能な権限を持つかどうかのチェック
-	public void cancel(Integer reservationId, User requestUser) {
-		Reservation reservation = reservationRepository.findById(reservationId).get();
-		
-		// Userロール：自分が予約した情報のみ
-		// ADMIN：全予約削除可能
-		if(RoleName.ADMIN != requestUser.getRoleName() && 
-				!Objects.equals(reservation.getUser().getUserId(), requestUser.getUserId())) {
-			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
-		}
-		reservationRepository.delete(reservation);
-	}
+//	// 予約情報の取り消し可能な権限を持つかどうかのチェック
+//	public void cancel(Integer reservationId, User requestUser) {
+//		Reservation reservation = reservationRepository.findById(reservationId).get();
+//		
+//		// Userロール：自分が予約した情報のみ
+//		// ADMIN：全予約削除可能
+//		if(RoleName.ADMIN != requestUser.getRoleName() && 
+//				!Objects.equals(reservation.getUser().getUserId(), requestUser.getUserId())) {
+//			throw new AccessDeniedException("要求されたキャンセルは許可できません。");
+//		}
+//		reservationRepository.delete(reservation);
+//	}
 	
 	// 指定日付の予約一覧取得処理
 	public List<Reservation> findReservations(ReservableRoomId reserableRoomId) {
 		return reservationRepository.findByReservableRoom_reservableRoomIdOrderByStartTimeAsc(reserableRoomId);
+	}
+	
+	@PreAuthorize("hasRole('ADMIN') or #reservation.user.userId == principal.user.userId")
+	public void cancel(@P("reservation") Reservation reservation) {
+		reservationRepository.delete(reservation);
+	}
+	
+	// Reservationオブジェクトを予約IDから取得s
+	public Reservation findById(Integer reservationId) {
+		return reservationRepository.findById(reservationId).get();
 	}
 }
