@@ -12,8 +12,14 @@ import project.tutorial.spring.domain.repository.user.UserRepository;
 @Service
 public class ReservationUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	UserRepository userRepository;
+//	@Autowired
+//	UserRepository userRepository;
+	
+	private final UserRepository userRepository;
+	
+	public ReservationUserDetailsService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) 

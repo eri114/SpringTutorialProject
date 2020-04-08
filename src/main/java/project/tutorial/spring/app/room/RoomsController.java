@@ -3,13 +3,12 @@ package project.tutorial.spring.app.room;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import project.tutorial.spring.domain.model.ReservableRoom;
 import project.tutorial.spring.domain.service.room.RoomService;
@@ -18,10 +17,16 @@ import project.tutorial.spring.domain.service.room.RoomService;
 @RequestMapping("rooms")
 public class RoomsController {
 
-	@Autowired
-	RoomService roomService;
+//	@Autowired
+//	RoomService roomService;
+
+	private final RoomService roomService;
 	
-	@RequestMapping(method = RequestMethod.GET)
+	public RoomsController(RoomService roomService) {
+		this.roomService = roomService;
+	}
+	
+	@GetMapping
 	String listRooms(Model model) {
 		LocalDate today = LocalDate.now();
 		
@@ -33,7 +38,7 @@ public class RoomsController {
 		return "room/listRooms";
 	}
 	
-	@RequestMapping(path = "{date}", method = RequestMethod.GET)
+	@GetMapping("{date}")
 	String listRooms(
 		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("date")
 		LocalDate date, Model model) {

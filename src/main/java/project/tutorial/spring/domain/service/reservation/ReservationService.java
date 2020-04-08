@@ -22,11 +22,20 @@ import project.tutorial.spring.domain.repository.room.ReservableRoomRepository;
 @Transactional
 public class ReservationService {
 
-	@Autowired
-	ReservationRepository reservationRepository;
+//	@Autowired
+//	ReservationRepository reservationRepository;
+//	
+//	@Autowired
+//	ReservableRoomRepository reservableRoomRepository;
 	
-	@Autowired
-	ReservableRoomRepository reservableRoomRepository;
+	private final ReservationRepository reservationRepository;
+	private final ReservableRoomRepository reservableRoomRepository;
+	
+	public ReservationService(ReservationRepository reservationRepository, 
+								ReservableRoomRepository reservableRoomRepository) {
+		this.reservationRepository = reservationRepository;
+		this.reservableRoomRepository = reservableRoomRepository;
+	}
 	
 	// 予約処理
 	public Reservation reserve(Reservation reservation) {
@@ -76,7 +85,7 @@ public class ReservationService {
 		reservationRepository.delete(reservation);
 	}
 	
-	// Reservationオブジェクトを予約IDから取得s
+	// Reservationオブジェクトを予約IDから取得
 	public Reservation findById(Integer reservationId) {
 		return reservationRepository.findById(reservationId).get();
 	}

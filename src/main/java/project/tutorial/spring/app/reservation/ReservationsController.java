@@ -28,12 +28,21 @@ import project.tutorial.spring.domain.service.user.ReservationUserDetails;
 @Controller
 @RequestMapping("reservations/{date}/{roomId}")
 public class ReservationsController {
+
+//	@Autowired
+//	RoomService roomService;
+//	
+//	@Autowired
+//	ReservationService reservationService;
 	
-	@Autowired
-	RoomService roomService;
+	private final RoomService roomService;
+	private final ReservationService reservationService;
 	
-	@Autowired
-	ReservationService reservationService;
+	public ReservationsController(RoomService roomService, 
+								ReservationService reservationService) {
+		this.roomService = roomService;
+		this.reservationService = reservationService;
+	}
 	
 	@ModelAttribute
 	ReservationForm  setUpForm() {
@@ -46,7 +55,7 @@ public class ReservationsController {
 		return form;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	String reserveForm(
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 			@PathVariable("date") LocalDate date,
@@ -73,7 +82,7 @@ public class ReservationsController {
 		return "reservation/reserveForm";
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping
 	String reserve(@Validated ReservationForm form, BindingResult bindingResult,
 			@AuthenticationPrincipal ReservationUserDetails userDetails,
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -103,7 +112,7 @@ public class ReservationsController {
 		return "redirect:/reservations/{date}/{roomId}";
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, params = "cancel")
+	@PostMapping(params = "cancel")
 	String cancel(
 			@RequestParam("reservationId") Integer reservationId,
 			@PathVariable("roomId") Integer roomId,
